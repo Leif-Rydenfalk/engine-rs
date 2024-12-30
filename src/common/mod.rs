@@ -34,7 +34,7 @@ use {
 const WIDTH: u32 = 1024;
 const HEIGHT: u32 = 768;
 
-pub fn apply_engine_styling(style: &mut imgui::Style) {
+pub fn apply_styling(style: &mut imgui::Style) {
     style.window_rounding = 5.0;
     style.frame_rounding = 4.0;
     style.scrollbar_rounding = 5.0;
@@ -154,7 +154,7 @@ impl<A: App> System<A> {
             },
         ]);
         imgui.io_mut().font_global_scale = (1.0 / hidpi_factor) as f32;
-        apply_engine_styling(imgui.style_mut());
+        apply_styling(imgui.style_mut());
         platform.attach_window(imgui.io_mut(), &window, HiDpiMode::Rounded);
 
         #[cfg(feature = "gpu-allocator")]
@@ -878,7 +878,9 @@ fn create_vulkan_swapchain(
                     vulkan_context.surface_khr,
                 )?
         };
-        if present_modes.contains(&vk::PresentModeKHR::IMMEDIATE) {
+        if present_modes.contains(&vk::PresentModeKHR::MAILBOX) {
+            vk::PresentModeKHR::MAILBOX
+        } else if present_modes.contains(&vk::PresentModeKHR::IMMEDIATE) {
             vk::PresentModeKHR::IMMEDIATE
         } else {
             vk::PresentModeKHR::FIFO

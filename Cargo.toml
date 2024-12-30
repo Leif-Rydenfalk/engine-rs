@@ -6,10 +6,15 @@ edition = "2021"
 [dependencies]
 thiserror = "1.0"
 log = "0.4"
-imgui = { version = "^0.12", features = ["tables-api"] }
-ash = { version = "0.38", default-features = false, features = ["debug", "linked"] }
+imgui = { version = "^0.12", features = ["tables-api", "docking"] }
+ash = { version = "0.38", default-features = false, features = [
+    "debug",
+    "linked",
+] }
 ultraviolet = "0.9"
-gpu-allocator = { version = "0.27", default-features = false, features = ["vulkan"] }
+gpu-allocator = { version = "0.27", default-features = false, features = [
+    "vulkan",
+] }
 imgui-rs-vulkan-renderer = { version = "1.16.0", features = ["gpu-allocator"] }
 simple_logger = "5.0"
 winit = "0.29"
