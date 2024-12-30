@@ -880,10 +880,10 @@ fn create_vulkan_swapchain(
         };
         if present_modes.contains(&vk::PresentModeKHR::MAILBOX) {
             vk::PresentModeKHR::MAILBOX
-        } else if present_modes.contains(&vk::PresentModeKHR::IMMEDIATE) {
-            vk::PresentModeKHR::IMMEDIATE
         } else if present_modes.contains(&vk::PresentModeKHR::FIFO) {
             vk::PresentModeKHR::FIFO
+        } else if present_modes.contains(&vk::PresentModeKHR::IMMEDIATE) {
+            vk::PresentModeKHR::IMMEDIATE
         } else {
             panic!("Could not find a suitable presentation mode");
         }
