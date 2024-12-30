@@ -879,11 +879,18 @@ fn create_vulkan_swapchain(
                 )?
         };
 
+        // TODO: FIX THIS SHIT
         if present_modes.contains(&vk::PresentModeKHR::MAILBOX) {
             vk::PresentModeKHR::MAILBOX
-        } else if present_modes.contains(&vk::PresentModeKHR::IMMEDIATE) {
-            vk::PresentModeKHR::IMMEDIATE
         } else {
+            #[cfg(target_os = "linux")]
+            if present_modes.contains(&vk::PresentModeKHR::IMMEDIATE) {
+                vk::PresentModeKHR::IMMEDIATE
+            } else {
+                vk::PresentModeKHR::FIFO
+            }
+
+            #[cfg(target_os = "macos")]
             vk::PresentModeKHR::FIFO
         }
     };
