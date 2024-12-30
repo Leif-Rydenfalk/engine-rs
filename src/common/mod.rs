@@ -878,14 +878,19 @@ fn create_vulkan_swapchain(
                     vulkan_context.surface_khr,
                 )?
         };
+
         if present_modes.contains(&vk::PresentModeKHR::MAILBOX) {
             vk::PresentModeKHR::MAILBOX
-        } else if present_modes.contains(&vk::PresentModeKHR::FIFO) {
-            vk::PresentModeKHR::FIFO
-        } else if present_modes.contains(&vk::PresentModeKHR::IMMEDIATE) {
-            vk::PresentModeKHR::IMMEDIATE
         } else {
-            panic!("Could not find a suitable presentation mode");
+            #[cfg(target_os = "linux")]
+            if present_modes.contains(&vk::PresentModeKHR::IMMEDIATE) {
+                vk::PresentModeKHR::IMMEDIATE
+            } else {
+                vk::PresentModeKHR::FIFO
+            }
+
+            #[cfg(target_os = "macos")]
+            vk::PresentModeKHR::FIFO
         }
     };
     log::debug!("Swapchain present mode: {present_mode:?}");
