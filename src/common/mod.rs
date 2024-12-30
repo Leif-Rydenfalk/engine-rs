@@ -34,6 +34,19 @@ use {
 const WIDTH: u32 = 1024;
 const HEIGHT: u32 = 768;
 
+pub fn apply_engine_styling(style: &mut imgui::Style) {
+    style.window_rounding = 5.0;
+    style.frame_rounding = 4.0;
+    style.scrollbar_rounding = 5.0;
+    style.grab_rounding = 5.0;
+    style.popup_rounding = 5.0;
+    style.child_rounding = 5.0;
+    style.item_spacing = [6.0, 4.0];
+    style.item_inner_spacing = [8.0, 6.0];
+    style.window_title_align = [0.5, 0.5];
+    style.window_padding = [8.0, 4.0];
+}
+
 pub trait App {
     fn destroy(&mut self, context: &VulkanContext);
 }
@@ -113,9 +126,20 @@ impl<A: App> System<A> {
         let hidpi_factor = platform.hidpi_factor();
         let font_size = (13.0 * hidpi_factor) as f32;
         imgui.fonts().add_font(&[
-            FontSource::DefaultFontData {
+            // FontSource::DefaultFontData {
+            //     config: Some(FontConfig {
+            //         size_pixels: font_size,
+            //         ..FontConfig::default()
+            //     }),
+            // },
+            FontSource::TtfData {
+                data: include_bytes!(
+                    "../../assets/fonts/source-sans-pro/SourceSansPro-Regular.otf"
+                ),
+                size_pixels: font_size,
                 config: Some(FontConfig {
-                    size_pixels: font_size,
+                    rasterizer_multiply: 1.75,
+                    // glyph_extra_spacing: [0.2, 0.0],
                     ..FontConfig::default()
                 }),
             },
@@ -130,6 +154,7 @@ impl<A: App> System<A> {
             },
         ]);
         imgui.io_mut().font_global_scale = (1.0 / hidpi_factor) as f32;
+        apply_engine_styling(imgui.style_mut());
         platform.attach_window(imgui.io_mut(), &window, HiDpiMode::Rounded);
 
         #[cfg(feature = "gpu-allocator")]
