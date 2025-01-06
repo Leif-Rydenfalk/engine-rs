@@ -31,6 +31,8 @@ use {
     vk_mem::{Allocator, AllocatorCreateInfo},
 };
 
+const GLYPH_RANGE: [u32; 3] = [0xe000, 0x10fffd, 0];
+
 const WIDTH: u32 = 1024;
 const HEIGHT: u32 = 768;
 
@@ -151,7 +153,17 @@ impl<A: App> System<A> {
                     ..FontConfig::default()
                 }),
             },
+            imgui::FontSource::TtfData {
+                data: material_icons::FONT,
+                size_pixels: font_size,
+                config: Some(FontConfig {
+                    rasterizer_multiply: 1.25,
+                    glyph_ranges: imgui::FontGlyphRanges::from_slice(&GLYPH_RANGE),
+                    ..FontConfig::default()
+                }),
+            },
         ]);
+
         imgui.io_mut().font_global_scale = (1.0 / hidpi_factor) as f32;
         imgui.io_mut().config_flags |= imgui::ConfigFlags::DOCKING_ENABLE;
         apply_styling(imgui.style_mut());

@@ -2,6 +2,7 @@ mod common;
 
 use common::*;
 use imgui::*;
+use material_icons::*;
 use simple_logger::SimpleLogger;
 use std::error::Error;
 
@@ -25,6 +26,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             .build(|| {
                 ui.text("Hello World!");
                 ui.text_wrapped("こんにちは世界！");
+                ui.text(format!("{}", icon_to_char(Icon::AccessAlarm)))
             });
     })?;
 
