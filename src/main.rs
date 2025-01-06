@@ -17,16 +17,19 @@ fn main() -> Result<(), Box<dyn Error>> {
             ui.show_demo_window(&mut demo_window_open);
         }
 
-        ui.window("Settings").always_auto_resize(true).build(|| {
+        ui.window("Debug").always_auto_resize(true).build(|| {
+            ui.text(format!("fps: {}", ui.io().framerate));
+            ui.text(format!("dt (ms): {}", 1000.0 / ui.io().framerate));
+            ui.separator();
             ui.checkbox("Show Imgui Demo Window", &mut demo_window_open);
         });
 
-        ui.window("Pipeline creator")
+        ui.window("Hello World")
             .size([300.0, 400.0], Condition::FirstUseEver)
             .build(|| {
                 ui.text("Hello World!");
                 ui.text_wrapped("こんにちは世界！");
-                ui.text(format!("{}", icon_to_char(Icon::AccessAlarm)))
+                ui.text(format!("{}", icon_to_char(Icon::DirectionsBike)))
             });
     })?;
 
