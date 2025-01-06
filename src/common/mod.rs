@@ -31,8 +31,6 @@ use {
     vk_mem::{Allocator, AllocatorCreateInfo},
 };
 
-const GLYPH_RANGE: [u32; 3] = [0xe000, 0x10fffd, 0];
-
 const WIDTH: u32 = 1024;
 const HEIGHT: u32 = 768;
 
@@ -127,6 +125,7 @@ impl<A: App> System<A> {
 
         let hidpi_factor = platform.hidpi_factor();
         let font_size = (13.0 * hidpi_factor) as f32;
+        const GLYPH_RANGE: [u32; 3] = [0xe000, 0x10fffd, 0];
         imgui.fonts().add_font(&[
             // FontSource::DefaultFontData {
             //     config: Some(FontConfig {
