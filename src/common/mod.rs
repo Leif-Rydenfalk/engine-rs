@@ -119,7 +119,7 @@ impl<A: App> System<A> {
         };
 
         let mut imgui = Context::create();
-        imgui.set_ini_filename(None);
+        // imgui.set_ini_filename(None);
 
         let mut platform = WinitPlatform::init(&mut imgui);
 
@@ -139,7 +139,6 @@ impl<A: App> System<A> {
                 size_pixels: font_size,
                 config: Some(FontConfig {
                     rasterizer_multiply: 1.75,
-                    // glyph_extra_spacing: [0.2, 0.0],
                     ..FontConfig::default()
                 }),
             },
@@ -154,6 +153,7 @@ impl<A: App> System<A> {
             },
         ]);
         imgui.io_mut().font_global_scale = (1.0 / hidpi_factor) as f32;
+        imgui.io_mut().config_flags |= imgui::ConfigFlags::DOCKING_ENABLE;
         apply_styling(imgui.style_mut());
         platform.attach_window(imgui.io_mut(), &window, HiDpiMode::Rounded);
 

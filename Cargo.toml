@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 thiserror = "1.0"
 log = "0.4"
-imgui = { version = "^0.12", features = ["tables-api", "docking"] }
+imgui = { version = "^0.12", features = ["tables-api", "docking", "freetype"] }
 ash = { version = "0.38", default-features = false, features = [
     "debug",
     "linked",
@@ -21,6 +21,7 @@ winit = "0.29"
 imgui-winit-support = "^0.12"
 ash-window = "0.13"
 image = "0.25"
+material-icons = "0.2"
 
 [features]
 default = ["gpu-allocator"]
